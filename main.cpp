@@ -162,6 +162,7 @@ void Selling()
                 std::cout << "\nПодтвердите покупку?\n1 - Да\n2 - Добавить ещё товар\n3 - Отмена\nВвод - ";
             }
 
+
             Getline(choose);
 
             if (choose == "1")
@@ -465,7 +466,8 @@ void SellActiv(double& totalSum)
     system("cls");
     std::cout << "Акции в нашем магазине\n";
     std::cout << "Акция 1. При покупке на сумму свыше 20000 рублей - скидка 10% на весь чек\n";
-    std::cout << "\n\nВыберите акцию (1) или \"exit\" для отмены: ";
+    std::cout << "Акция 2. При покупке двух рулей - третий в подарок\n";
+    std::cout << "\n\nВыберите акцию (1-2) или \"exit\" для отмены: ";
     Getline(choose);
 
     if (choose == "exit")
@@ -528,6 +530,99 @@ void SellActiv(double& totalSum)
             else
             {
                 std::cout << "Возврат к покупкам...\n";
+                Sleep(1000);
+                return;
+            }
+        }
+    }
+    else if (choose == "2")
+    {
+        // Проверяем, есть ли рули в чеке
+        int steeringWheelCount = 0;
+        int steeringWheelIndex = -1;
+
+        // Находим товар "Спорт-Руль" (ID = 10)
+        for (size_t i = 0; i < checkSize; i++)
+        {
+            if (idArrCheck[i] == 10) // ID руля = 10
+            {
+                steeringWheelCount = countArrCheck[i];
+                steeringWheelIndex = i;
+                break;
+            }
+        }
+
+        if (steeringWheelCount >= 2)
+        {
+            std::cout << "\nВ вашем чеке " << steeringWheelCount << " руля(ей)\n";
+            std::cout << "Акция: купи 2 руля - получи третий в подарок!\n";
+            std::cout << "Вы можете получить " << (steeringWheelCount / 2) << " руль(ей) в подарок\n";
+            std::cout << "\nПрименить акцию? 1 - Да, 2 - Нет\n";
+            std::cout << "Ввод: ";
+            Getline(choose);
+
+            if (choose == "1")
+            {
+                int freeWheels = steeringWheelCount / 2;
+                double discount = freeWheels * priceArr[9] - 2500; // priceArr[9] - цена руля
+                double newTotal = totalSum - discount;
+
+                // Добавляем бесплатные рули в чек
+                if (steeringWheelIndex != -1)
+                {
+                    countArrCheck[steeringWheelIndex] += freeWheels;
+                    totalPriceArrCheck[steeringWheelIndex] = countArrCheck[steeringWheelIndex] * priceArrCheck[steeringWheelIndex];
+
+                    // Обновляем общую сумму
+                    totalSum = newTotal;
+
+                    // Вычитаем бесплатные рули из склада
+                    countArr[9] -= freeWheels; // index 9 - Спорт-Руль
+
+                    std::cout << "\nВы получили " << freeWheels << " руль(ей) в подарок!\n";
+                    std::cout << "Скидка: " << discount << " рублей\n";
+                    std::cout << "Новая сумма: " << newTotal << " рублей\n";
+                    discountUsed = true;
+                    Sleep(2000);
+                    return;
+                }
+            }
+            else if (choose == "2")
+            {
+                std::cout << "Акция не применена\n";
+                Sleep(1000);
+                return;
+            }
+            else
+            {
+                Err();
+                return;
+            }
+        }
+        else
+        {
+            if (steeringWheelCount == 1)
+            {
+                std::cout << "\nУ вас в чеке только 1 руль. Добавьте еще один руль для участия в акции!\n";
+            }
+            else
+            {
+                std::cout << "\nВ вашем чеке нет рулей. Добавьте рули для участия в акции!\n";
+            }
+
+            std::cout << "Продолжить покупки? 1 - Да, 2 - Нет (вернуться к выбору акций)\n";
+            std::cout << "Ввод: ";
+            Getline(choose);
+
+            if (choose == "1")
+            {
+                std::cout << "Продолжайте добавлять товары...\n";
+                Sleep(1000);
+                return;
+            }
+            else
+            {
+                std::cout << "Возврат к выбору акций...\n";
                 Sleep(1000);
                 return;
             }
