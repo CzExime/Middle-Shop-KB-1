@@ -541,7 +541,7 @@ void SellActiv(double& totalSum)
         int steeringWheelCount = 0;
         int steeringWheelIndex = -1;
 
-        // Находим товар "Спорт-Руль" (ID = 10)
+        // Находим товар (ID = 10)
         for (size_t i = 0; i < checkSize; i++)
         {
             if (idArrCheck[i] == 10) // ID руля = 10
@@ -564,7 +564,7 @@ void SellActiv(double& totalSum)
             if (choose == "1")
             {
                 int freeWheels = steeringWheelCount / 2;
-                double discount = freeWheels * priceArr[9] - 2500; // priceArr[9] - цена руля
+                double discount = freeWheels * priceArr[9] - 2500; 
                 double newTotal = totalSum - discount;
 
                 // Добавляем бесплатные рули в чек
@@ -577,7 +577,7 @@ void SellActiv(double& totalSum)
                     totalSum = newTotal;
 
                     // Вычитаем бесплатные рули из склада
-                    countArr[9] -= freeWheels; // index 9 - Спорт-Руль
+                    countArr[9] -= freeWheels; 
 
                     std::cout << "\nВы получили " << freeWheels << " руль(ей) в подарок!\n";
                     std::cout << "Скидка: " << discount << " рублей\n";
